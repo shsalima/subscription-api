@@ -1,0 +1,35 @@
+
+import mongoose from "mongoose";
+import User from "./User.js";
+
+const Abonnementschema=new mongoose.schema({
+    
+         name:{
+            type:String,
+            required:true
+         },
+         price:{
+            type:Number,
+            required:true
+         },
+         billingCycle :{
+            type:String,
+            enum:["monthly"," yearly"],
+            required:true
+         },
+         userId :{
+            type:mongoose.schema.Types.objecctId(),
+            ref:"User"
+            
+         }
+    
+    
+    
+},
+{
+    timestamps:true
+},
+)
+
+const Abonnement=mongoose.model("Abonnement",Abonnementschema)
+export default Abonnement

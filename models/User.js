@@ -27,6 +27,6 @@ const userScheme=new mongoose.schema(
 },
 )
 
-const Abonnement=mongoose.model("User",userScheme)
+const User=mongoose.model("User",userScheme)
 
-export default Abonnement;
+export default User;
