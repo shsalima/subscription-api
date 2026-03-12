@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import User from "./User.js";
 
-const Abonnementschema=new mongoose.schema({
+const Abonnementschema=new mongoose.Schema({
     
          name:{
             type:String,
@@ -18,7 +18,7 @@ const Abonnementschema=new mongoose.schema({
             required:true
          },
          userId :{
-            type:mongoose.schema.Types.objecctId(),
+            type: mongoose.schema.Types.objecctId(),
             ref:"User"
             
          }
