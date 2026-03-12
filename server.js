@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import router from "./routes/authRoutes.js";
-import route from "./routes/abonnements.js";
+import abonnementRoute from "./routes/abonnements.js";
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/api/auth", router);
-app.use("/api/abonnements",route)
+app.use("/api/abonnements", abonnementRoute);
 
 const MON_URL = process.env.MONGODB_URL;
 const port = process.env.PORT || 3000;

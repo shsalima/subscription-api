@@ -1,11 +1,16 @@
-import express from 'express'
+import express from "express";
 
-import {creatAbonnement} from '../controllers/abonnementController.js'
+import {
+  creatAbonnement,
+  getAbonnements,
+  getAbonnementId,
+} from "../controllers/abonnementController.js";
 
+const abonnementRoute = express.Router();
 
-const route=express.Router()
+abonnementRoute.get("/", getAbonnements);
+abonnementRoute.get("/:id", getAbonnementId);
+abonnementRoute.get("/test", getAbonnementId);
+abonnementRoute.post("/create", creatAbonnement);
 
-
-route.post('/create',creatAbonnement)
-
-export default route
+export default abonnementRoute;
