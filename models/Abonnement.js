@@ -18,7 +18,7 @@ const Abonnementschema=new mongoose.Schema({
             required:true
          },
          userId :{
-            type: mongoose.Schema.Types.objecctId(),
+            type: mongoose.Schema.Types.ObjectId,
             ref:"User"
             
          }
