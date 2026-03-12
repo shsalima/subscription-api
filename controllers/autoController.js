@@ -29,6 +29,34 @@ export const register = async (req,res)=>{
 
 
 
+export const login= async (req,res)=>{
+    try{
+        const {email,passeword}=req.body
+
+        const userExist=await User.findOne({email})
+        if(!userExist){
+            return res.status(404).json({message:"cette user ne trouve pas"})
+        }
+        const pwdVer=await bcrypt.compare(passeword, userExist.passeword)
+        if(!pwdVer){
+            return res.status(400).json({message:"passeword incorrecte"})
+        }
+
+        // create token
+
+        const token=jwt.sign({
+            id:userExist._id, role:userExist.role
+        },
+        process.env.JWTS,
+        {expiresIn:"1d"}
+
+    )
+    res.status(200).json({message:"login success",token,userExist})
 
 
-  
+
+    }catch(err){
+        res.status(500).json({message:err.message})
+
+    }
+}
