@@ -38,3 +38,26 @@ export const  getAbonnementId = async(req,res)=>{
         res.status(500).json({message:err.message})
     }
 }
+
+
+export const deleteAbonnement = async (req,res)=>{
+    try{
+        await Abonnement.findByIdAndDelete(req.params.id)
+        res.status(200).json({message:"Abonnement deleted"})
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}
+
+export const updateAbonnement = async (req,res)=>{
+    try{
+        const abonnement = await Abonnement.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {new:true}
+        )
+        res.status(200).json(abonnement)
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}
