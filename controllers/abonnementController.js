@@ -64,3 +64,35 @@ export const deleteAbonnement = async (req,res)=>{
 
 
 
+export const updateAbonnement = async (req, res) => {
+    try {
+        // njibo l'abonnement b id
+        const abonnement = await Abonnement.findById(req.params.id)
+
+        if (!abonnement) {
+            return res.status(404).json({ message: "Abonnement pas trouvé" })
+        }
+
+        // check userId dyal abonnement m3a user li dar login
+        if (abonnement.userId.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Non autorisé à modifier cet abonnement" })
+        }
+
+        // update les champs
+        abonnement.name = req.body.name || abonnement.name
+        abonnement.price = req.body.price || abonnement.price
+        abonnement.billingCycle = req.body.billingCycle || abonnement.billingCycle
+
+        // save
+        await abonnement.save()
+
+        res.status(200).json({
+            message: "Abonnement modifié avec succès",
+            abonnement
+        })
+
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ message: "Erreur serveur", error: err.message })
+    }
+}

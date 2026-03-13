@@ -8,7 +8,7 @@ import {
   getAbonnements,
   getAbonnementId,
   updateAbonnement,
-  deleteAbonnement
+
 } from "../controllers/abonnementController.js";
 
 const abonnementRoute = express.Router();
