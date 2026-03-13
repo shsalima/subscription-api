@@ -56,7 +56,7 @@ export const login= async (req,res)=>{
 
 // get all users (admin seulement)
 
-// GET /admin/users
+
 export const getAllUsers = async (req, res) => {
     try {
         const users = await User.find().select("-passeword") // ma njibouch password

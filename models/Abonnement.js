@@ -22,9 +22,7 @@ const Abonnementschema=new mongoose.Schema({
             ref:"User"
             
          }
-    
-    
-    
+
 },
 {
     timestamps:true

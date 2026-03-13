@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator"
 
-// قواعد التحقق
+
 export const abonnementValidation = [
     
     body("name")
@@ -17,7 +17,7 @@ export const abonnementValidation = [
 
 ]
 
-// middleware كيتحقق من errors
+
 export const validate = (req,res,next)=>{
 
     const errors = validationResult(req)

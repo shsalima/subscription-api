@@ -25,7 +25,7 @@ export const verifyToken = (req,res,next)=>{
     }
 
 }
-// Middleware check admin
+
 export const isAdmin = (req, res, next) => {
     if (req.user.role !== "admin") {
         return res.status(403).json({ message: "Non autorisé, seulement admin" })
@@ -36,10 +36,26 @@ export const isAdmin = (req, res, next) => {
 
 
 
-// Middleware pour empêcher création de plus d'un admin
+
+export const checkAdminExists = async (req, res, next) => {
+    try {
+        const { role } = req.body
+
+        if (role === "admin") {
+            const adminExist = await User.findOne({ role: "admin" })
+            if (adminExist) {
+                return res.status(400).json({ message: "Admin déjà créé" })
+            }
+        }
+
+        next() 
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ message: "Erreur serveur", error: err.message })
+    }
+}
 
 
-// validation dyal register
 export const registerValidation = [
 
     body("name")
