@@ -9,7 +9,9 @@ export const abonnementValidation = [
 
     body("price")
     .isNumeric()
-    .withMessage("price doit être un nombre"),
+    .withMessage("price doit être un nombre")
+    .isFloat({ gt: 0 })  
+    .withMessage("price doit être un nombre supérieur à 0"),
 
     body("billingCycle")
     .isIn(["monthly","yearly"])
