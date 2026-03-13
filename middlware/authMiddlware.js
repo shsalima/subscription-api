@@ -25,6 +25,18 @@ export const verifyToken = (req,res,next)=>{
     }
 
 }
+// Middleware check admin
+export const isAdmin = (req, res, next) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ message: "Non autorisé, seulement admin" })
+    }
+    next()
+}
+
+
+
+
+// Middleware pour empêcher création de plus d'un admin
 
 
 // validation dyal register
