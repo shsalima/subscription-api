@@ -53,3 +53,14 @@ export const  getAbonnementId = async(req,res)=>{
 }
 
 
+export const deleteAbonnement = async (req,res)=>{
+    try{
+        await Abonnement.findByIdAndDelete(req.params.id)
+        res.status(200).json({message:"Abonnement deleted"})
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}
+
+
+
