@@ -12,8 +12,8 @@ import {
 
 const abonnementRoute = express.Router();
 
-abonnementRoute.post("/create",abonnementValidation,validate, creatAbonnement);
 abonnementRoute.get("/", getAbonnements);
+abonnementRoute.post("/create",abonnementValidation,validate, creatAbonnement);
 abonnementRoute.get("/:id", getAbonnementId);
 abonnementRoute.put("/:id", updateAbonnement);
 abonnementRoute.delete("/:id", deleteAbonnement);
