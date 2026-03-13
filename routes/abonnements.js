@@ -8,9 +8,9 @@ import {
 
 const abonnementRoute = express.Router();
 
+abonnementRoute.post("/create", creatAbonnement);
 abonnementRoute.get("/", getAbonnements);
 abonnementRoute.get("/:id", getAbonnementId);
-abonnementRoute.get("/test", getAbonnementId);
-abonnementRoute.post("/create", creatAbonnement);
+// abonnementRoute.get("/test", getAbonnementId);
 
 export default abonnementRoute;
