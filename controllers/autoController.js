@@ -4,27 +4,17 @@ import jwt from "jsonwebtoken";
 
 
 
-export const register = async (req,res)=>{
-    try{
+export const register = async (req, res) => {
+    try {
+        const { name, email, passeword, role } = req.body
 
-        const {name,email,passeword,role}=req.body
+        const hashedPassword = await bcrypt.hash(String(passeword), 10)
+        const user = await User.create({ name, email, passeword: hashedPassword, role })
 
-        if(role==="admin"){
-            const adminExsit=await User.findOne({role:"admin"})
-            if(adminExsit){
-                return res.status(400).json({message:"admin déjà trouvé"})
-
-            }
-        }
-
-    
-        const hashedPassword=await bcrypt.hash(passeword,10)
-        const user = await User.create({name,email,passeword:hashedPassword,role})
         res.status(201).json(user)
-    }catch(err){
-        res.status(500).json({message:err.message})    
+    } catch (err) {
+        res.status(500).json({ message: err.message })
     }
-
 }
 
 
@@ -58,5 +48,24 @@ export const login= async (req,res)=>{
     }catch(err){
         res.status(500).json({message:err.message})
 
+    }
+}
+
+
+
+
+// get all users (admin seulement)
+
+// GET /admin/users
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find().select("-passeword") // ma njibouch password
+        res.status(200).json({
+            message: "Liste de tous les utilisateurs",
+            users
+        })
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ message: "Erreur serveur", error: err.message })
     }
 }

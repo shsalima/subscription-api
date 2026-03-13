@@ -14,7 +14,7 @@ const Abonnementschema=new mongoose.Schema({
          },
          billingCycle :{
             type:String,
-            enum:["monthly"," yearly"],
+            enum:["monthly","yearly"],
             required:true
          },
          userId :{
