@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
     try {
         const { name, email, passeword, role } = req.body
-
+        // 10 => salt rounds performance 
         const hashedPassword = await bcrypt.hash(String(passeword), 10)
         const user = await User.create({ name, email, passeword: hashedPassword, role })
 
@@ -33,10 +33,14 @@ export const login= async (req,res)=>{
         }
 
         // create token
-
-        const token=jwt.sign({
-            id:userExist._id, role:userExist.role
+        // sign()=> hiya bivliothque dyal jwt
+        const token=jwt.sign(
+            // hada payload
+            {
+            id:userExist._id,
+             role:userExist.role
         },
+        // scret key
         process.env.JWTS,
         {expiresIn:"1d"}
 
