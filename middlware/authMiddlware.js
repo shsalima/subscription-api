@@ -14,7 +14,7 @@ export const verifyToken = (req, res, next) => {
     // jwt.verify() => est un bibliothéque dyal jsonwebtoken pour verify wach token sale7 ola la
     //JWTS=>secret key howa li n géneriw et verify token
     //  hna 9arna signature m3a process.env.JWTS
-    const decoded = jwt.verify(token, process.env.JWTS);
+    const decoded = jwt.verify(token, process.env.JWTS || "myproject");
 
     req.user = decoded; // id w role kayb9aw f req.user
 
@@ -36,10 +36,8 @@ export const isAdmin = (req, res, next) => {
 export const checkEmail = async (req, res, next) => {
   try {
     const { email } = req.body;
-    console.log("reeeeeeeeeeeeeeeeeeeee", email);
 
     const emailExist = await User.findOne({ email });
-    console.log(emailExist);
 
     if (emailExist) {
       return res.status(409).json({
