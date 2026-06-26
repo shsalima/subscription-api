@@ -1,6 +1,6 @@
 import express from "express";
-import router from "./routes/authRoutes";
-import abonnementRoute from "./routes/abonnements";
+import router from "./routes/authRoutes.js";
+import abonnementRoute from "./routes/abonnements.js";
 
 const app=express()
 
