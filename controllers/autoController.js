@@ -2,74 +2,66 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-
-
 export const register = async (req, res) => {
-    try {
-        const { name, email, passeword, role } = req.body
-        // 10 => salt rounds performance 
-        const hashedPassword = await bcrypt.hash(String(passeword), 10)
-        const user = await User.create({ name, email, passeword: hashedPassword, role })
+  try {
+    const { name, email, passeword, role } = req.body;
+    // 10 => salt rounds performance
+    const hashedPassword = await bcrypt.hash(String(passeword), 10);
+    const user = await User.create({
+      name,
+      email,
+      passeword: hashedPassword,
+      role,
+    });
 
-        res.status(201).json(user)
-    } catch (err) {
-        res.status(500).json({ message: err.message })
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, passeword } = req.body;
+
+    const userExist = await User.findOne({ email });
+    if (!userExist) {
+      return res.status(404).json({ message: "cette user ne trouve pas" });
     }
-}
-
-
-
-export const login= async (req,res)=>{
-    try{
-        const {email,passeword}=req.body
-
-        const userExist=await User.findOne({email})
-        if(!userExist){
-            return res.status(404).json({message:"cette user ne trouve pas"})
-        }
-        const pwdVer=await bcrypt.compare(passeword, userExist.passeword)
-        if(!pwdVer){
-            return res.status(400).json({message:"passeword incorrecte"})
-        }
-
-        // create token
-        // sign()=> hiya bivliothque dyal jwt
-        const token=jwt.sign(
-            // hada payload
-            {
-            id:userExist._id,
-             role:userExist.role
-        },
-        // scret key
-        process.env.JWTS,
-        {expiresIn:"1d"}
-
-    )
-    res.status(200).json({message:"login success",token,userExist})
-
-
-
-    }catch(err){
-        res.status(500).json({message:err.message})
-
+    const pwdVer = await bcrypt.compare(passeword, userExist.passeword);
+    if (!pwdVer) {
+      return res.status(400).json({ message: "passeword incorrecte" });
     }
-}
 
-
-
+    // create token
+    // sign()=> hiya bivliothque dyal jwt
+    const token = jwt.sign(
+      // hada payload
+      {
+        id: userExist._id,
+        role: userExist.role,
+      },
+      // scret key
+      process.env.JWTS || "7623487623417896237896",
+      { expiresIn: "1d" },
+    );
+    res.status(200).json({ message: "login success", token, userExist });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // get all users (admin seulement)
 
-
 export const getAllUsers = async (req, res) => {
-    try {
-        const users = await User.find().select("-passeword") // ma njibouch password
-        res.status(200).json({
-            message: "Liste de tous les utilisateurs",
-            users
-        })
-    } catch (err) {
-        console.error(err)
-        res.status(500).json({ message: "Erreur serveur", error: err.message })
-    }
-}
+  try {
+    const users = await User.find().select("-passeword"); // ma njibouch password
+    res.status(200).json({
+      message: "Liste de tous les utilisateurs",
+      users,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erreur serveur", error: err.message });
+  }
+};
