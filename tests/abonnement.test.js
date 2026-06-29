@@ -23,14 +23,38 @@ describe("GET /subscriptions", () => {
       .get("/api/abonnements")
       .set("Authorization", `Bearer ${token}`);
 
-    // Code HTTP
     expect(response.status).toBe(200);
 
-    // Structure de la réponse
 
     expect(response.body).toHaveProperty(
       "message",
       "Liste des abonnements de l'utilisateur",
     );
   });
+
+  test("POST Subscription", async () => {
+  const response = await request(app)
+    .post("/api/abonnements/create")
+    .set("Authorization", `Bearer ${token}`)
+    .send({
+      name: "Netflix",
+      price: 120,
+      billingCycle: "monthly",
+    });
+
+  expect(response.status).toBe(201);
+
+  expect(response.body).toHaveProperty(
+    "message",
+    "Abonnement créé avec succès"
+  );
+
+  expect(response.body.abonnement).toBeDefined();
+
+  expect(response.body.abonnement.name).toBe("Netflix");
+  expect(response.body.abonnement.price).toBe(120);
+  expect(response.body.abonnement.billingCycle).toBe("monthly");
+});
+
+
 });
