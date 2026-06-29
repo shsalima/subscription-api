@@ -32,5 +32,5 @@ jobs:
         run: npm test
         env:
           PORT: 3001
-          MONGODB_URL: mongodb+srv://sahisalima77_db_user:7MgTED3FOp4lDP2x@cluster0.qeobhsr.mongodb.net/Abonnement-api
+          MONGODB_URL: mongodb://localhost:27017/Abonnement-api
           JWTS: fb433489a7e8
